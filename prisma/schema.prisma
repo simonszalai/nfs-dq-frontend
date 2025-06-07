@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Field {
+  id              String    @id @db.VarChar
+  report_id       String    @db.VarChar
+  column_name     String    @db.VarChar
+  populated_count Int
+  inferred_type   String    @db.VarChar
+  format_count    Int?
+  created_at      DateTime  @db.Timestamp(6)
+  report          Report    @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  warnings        Warning[]
+}
+
+model GlobalIssue {
+  id          String   @id @db.VarChar
+  report_id   String   @db.VarChar
+  type        String   @db.VarChar
+  title       String   @db.VarChar
+  description String   @db.VarChar
+  severity    Severity
+  meta        Json?    @db.Json
+  created_at  DateTime @db.Timestamp(6)
+  report      Report   @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Report {
+  id                 String        @id @db.VarChar
+  token              String        @unique @db.VarChar
+  company_name       String        @db.VarChar
+  generated_at       DateTime      @db.Timestamp(6)
+  total_records      Int
+  total_fields       Int
+  fields_with_issues Int
+  config             Json?         @db.Json
+  created_at         DateTime      @db.Timestamp(6)
+  updated_at         DateTime      @db.Timestamp(6)
+  fields             Field[]
+  global_issues      GlobalIssue[]
+}
+
+model Warning {
+  id         String      @id @db.VarChar
+  field_id   String      @db.VarChar
+  type       WarningType
+  message    String      @db.VarChar
+  severity   Severity
+  meta       Json?       @db.Json
+  created_at DateTime    @db.Timestamp(6)
+  field      Field       @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum WarningType {
+  EMPTY_FIELD
+  LOW_POPULATION
+  INCONSISTENT_FORMAT
+  DUPLICATE_DATA
+  DEPRECATED_FIELD
+  DATA_QUALITY
+  OTHER
+}
