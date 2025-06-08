@@ -50,7 +50,7 @@ export function ReportHeader({
       : 0;
 
   return (
-    <div className="mb-8 space-y-6">
+    <div className="mb-6 space-y-6">
       {/* Company and Report Info */}
       <div className="text-center space-y-2">
         <h1 className="text-5xl md:text-6xl font-bold text-white">
@@ -65,8 +65,8 @@ export function ReportHeader({
       {/* Main Metrics Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Quality Score Card - Featured */}
-        <div className="md:col-span-1 relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="md:col-span-1 relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl"></div>
           <div className="relative h-full flex items-center justify-center">
             <div className="text-center">
               <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
@@ -85,7 +85,7 @@ export function ReportHeader({
 
         {/* Data Overview */}
         <div className="md:col-span-1 space-y-4">
-          <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold text-white">
@@ -93,7 +93,7 @@ export function ReportHeader({
                 </p>
                 <p className="text-sm text-gray-400 mt-1">Total Records</p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center">
                 <svg
                   className="w-6 h-6 text-blue-400"
                   fill="none"
@@ -111,7 +111,7 @@ export function ReportHeader({
             </div>
           </div>
 
-          <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+          <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold text-white">
@@ -119,7 +119,7 @@ export function ReportHeader({
                 </p>
                 <p className="text-sm text-gray-400 mt-1">Data Fields</p>
               </div>
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+              <div className="w-12 h-12 bg-purple-500/20 flex items-center justify-center">
                 <svg
                   className="w-6 h-6 text-purple-400"
                   fill="none"
@@ -139,12 +139,12 @@ export function ReportHeader({
         </div>
 
         {/* Issues Summary */}
-        <div className="md:col-span-1 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+        <div className="md:col-span-1 bg-white/5 backdrop-blur-lg border border-white/10 p-6">
           <div className="flex items-center justify-between mb-6">
             <p className="text-sm text-gray-400 uppercase tracking-wider">
               Issue Summary
             </p>
-            <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
+            <div className="w-10 h-10 bg-orange-500/20 flex items-center justify-center">
               <svg
                 className="w-5 h-5 text-orange-400"
                 fill="none"
@@ -208,7 +208,7 @@ export function ReportHeader({
 
       {/* Field Population Distribution Bar */}
       {populationStats && (
-        <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+        <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6">
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
             Field Population Distribution
           </p>
@@ -216,7 +216,7 @@ export function ReportHeader({
             {/* Population bars */}
             <div className="flex items-center gap-4">
               <div className="flex-1">
-                <div className="h-8 flex rounded-lg overflow-hidden">
+                <div className="h-8 flex overflow-hidden">
                   {populationStats.high > 0 && (
                     <div
                       className="bg-emerald-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
@@ -271,19 +271,19 @@ export function ReportHeader({
             {/* Legend */}
             <div className="flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-emerald-500 rounded"></div>
+                <div className="w-4 h-4 bg-emerald-500"></div>
                 <span className="text-gray-400">&gt;75% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                <div className="w-4 h-4 bg-yellow-500"></div>
                 <span className="text-gray-400">25-75% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                <div className="w-4 h-4 bg-orange-500"></div>
                 <span className="text-gray-400">&lt;25% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500 rounded"></div>
+                <div className="w-4 h-4 bg-red-500"></div>
                 <span className="text-gray-400">Empty</span>
               </div>
             </div>

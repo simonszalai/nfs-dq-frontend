@@ -100,14 +100,14 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         {CATEGORIES.map((category) => {
           const categoryColumns = columnsByCategory[category.slug] || [];
 
           return (
             <div
               key={category.slug}
-              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
+              className="bg-white/10 backdrop-blur-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
             >
               {/* Header section */}
               <div className="flex-shrink-0">
@@ -147,7 +147,7 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
                                     setSelectedField(column.field);
                                   }
                                 }}
-                                className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-all hover:scale-105 ${
+                                className={`flex items-center rounded-full gap-1 px-2 py-0.5 text-xs font-medium transition-all hover:scale-105 ${
                                   hasCritical
                                     ? "bg-red-500/20 text-red-400 hover:bg-red-500/30"
                                     : "bg-orange-500/20 text-orange-400 hover:bg-orange-500/30"

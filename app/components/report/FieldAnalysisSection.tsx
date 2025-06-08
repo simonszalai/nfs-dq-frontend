@@ -49,7 +49,7 @@ export function FieldAnalysisSection({
 
   return (
     <>
-      <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 relative z-20">
+      <div className="bg-white/10 backdrop-blur-lg p-6 border border-white/20 relative z-20">
         <div className="mb-6">
           <h3 className="text-xl font-semibold text-white mb-4">
             Field Analysis
@@ -75,7 +75,7 @@ export function FieldAnalysisSection({
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search columns..."
-              className="w-full pl-10 pr-10 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
+              className="w-full pl-10 pr-10 py-2 bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:border-white/40 focus:bg-white/15 transition-all"
             />
             {searchTerm && (
               <button
@@ -106,7 +106,7 @@ export function FieldAnalysisSection({
             Fields by Population Rate (Click to view details) -{" "}
             {chartData.length} fields
           </h4>
-          <div className="h-80 relative bg-white/5 rounded-lg overflow-hidden py-3">
+          <div className="h-80 relative bg-white/5 overflow-hidden py-3">
             {chartData.length > 0 ? (
               <FieldPopulationChart
                 data={chartData}
@@ -149,7 +149,7 @@ export function FieldAnalysisSection({
                 <div
                   key={field.id}
                   onClick={() => setSelectedField(field)}
-                  className="bg-white/5 rounded p-4 hover:bg-white/10 transition-all duration-200 cursor-pointer"
+                  className="bg-white/5 p-4 hover:bg-white/10 transition-all duration-200 cursor-pointer"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">

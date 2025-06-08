@@ -119,7 +119,7 @@ export function DataQualityOverview({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* Issue Distribution Chart */}
         <div className="lg:col-span-1">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 h-full">
+          <div className="bg-white/10 backdrop-blur-lg p-6 border border-white/20 h-full">
             <h3 className="text-lg font-semibold text-white mb-4">
               Issue Distribution
             </h3>
@@ -139,7 +139,7 @@ export function DataQualityOverview({
             {cards.map((card) => (
               <div
                 key={card.title}
-                className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300 hover:scale-105"
+                className="bg-white/10 backdrop-blur-lg p-6 border border-white/20 hover:border-white/30 transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>
@@ -160,14 +160,14 @@ export function DataQualityOverview({
       </div>
 
       {/* Field Distribution */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20">
+      <div className="bg-white/10 backdrop-blur-lg p-6 border border-white/20">
         <h3 className="text-xl font-semibold text-white mb-6">
           Field Distribution Analysis
         </h3>
 
         {/* Stacked Bar Chart */}
         <div className="mb-6">
-          <div className="h-8 bg-white/5 rounded-full overflow-hidden flex">
+          <div className="h-8 bg-white/5 overflow-hidden flex">
             {fieldStats.map((stat) => (
               <div
                 key={stat.label}
@@ -183,7 +183,7 @@ export function DataQualityOverview({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {fieldStats.map((stat) => (
             <div key={stat.label} className="flex items-center gap-3">
-              <div className={`w-4 h-4 rounded ${stat.color}`} />
+              <div className={`w-4 h-4 ${stat.color}`} />
               <div>
                 <p className="text-gray-300 text-sm">{stat.label}</p>
                 <p className="text-white font-semibold">

@@ -79,13 +79,13 @@ export function RecommendedActions({
 
   return (
     <div className="mt-8">
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-8 border border-gray-700">
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-8 border border-gray-700">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
           <span className="text-3xl">🧹</span>
           Recommended Actions
         </h2>
 
-        <div className="bg-gray-800/50 rounded-xl p-6 mb-6">
+        <div className="bg-gray-800/50 p-6 mb-6">
           <p className="text-lg font-semibold text-white mb-4">
             Immediate Priority: Remove {totalProblematicFields}{" "}
             unused/problematic fields ({reductionPercentage}% reduction)
@@ -93,7 +93,7 @@ export function RecommendedActions({
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
             {emptyFieldsCount > 0 && (
-              <div className="bg-gray-900/50 rounded-lg p-4">
+              <div className="bg-gray-900/50 p-4">
                 <h4 className="text-red-400 font-semibold mb-3 flex items-center gap-2">
                   <span>🗑️</span> Delete ({emptyFieldsCount} fields)
                 </h4>
@@ -106,7 +106,7 @@ export function RecommendedActions({
             )}
 
             {sparseFieldsCount > 0 && (
-              <div className="bg-gray-900/50 rounded-lg p-4">
+              <div className="bg-gray-900/50 p-4">
                 <h4 className="text-orange-400 font-semibold mb-3 flex items-center gap-2">
                   <span>🔧</span> Fix & Enrich ({sparseFieldsCount} fields)
                 </h4>
@@ -119,7 +119,7 @@ export function RecommendedActions({
             )}
 
             {inconsistentFieldsCount > 0 && (
-              <div className="bg-gray-900/50 rounded-lg p-4">
+              <div className="bg-gray-900/50 p-4">
                 <h4 className="text-purple-400 font-semibold mb-3 flex items-center gap-2">
                   <span>📝</span> Normalize ({inconsistentFieldsCount} fields)
                 </h4>
@@ -135,7 +135,7 @@ export function RecommendedActions({
 
         {/* Show specific recommendations based on critical issues */}
         {issueStats.critical > 0 && (
-          <div className="mt-6 p-4 bg-red-900/20 border border-red-800 rounded-lg">
+          <div className="mt-6 p-4 bg-red-900/20 border border-red-800">
             <p className="text-red-400 font-medium">
               ⚠️ Critical: {issueStats.critical} critical issues found that
               require immediate attention
