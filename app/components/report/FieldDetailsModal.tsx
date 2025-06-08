@@ -13,7 +13,7 @@ export function FieldDetailsModal({
   onClose,
 }: FieldDetailsModalProps) {
   const populationRate = Math.round(
-    (field.populatedCount / totalRecords) * 100
+    (field.populated_count / totalRecords) * 100
   );
 
   // Close on escape key
@@ -73,16 +73,16 @@ export function FieldDetailsModal({
         {/* Header */}
         <div className="mb-6">
           <h2 className="text-2xl font-bold text-white mb-2">
-            {field.columnName}
+            {field.column_name}
           </h2>
           <div className="flex items-center gap-4">
             <span className="text-gray-400">
-              Type: <span className="text-gray-300">{field.inferredType}</span>
+              Type: <span className="text-gray-300">{field.inferred_type}</span>
             </span>
-            {field.formatCount && (
+            {field.format_count && (
               <span className="text-gray-400">
                 Formats:{" "}
-                <span className="text-gray-300">{field.formatCount}</span>
+                <span className="text-gray-300">{field.format_count}</span>
               </span>
             )}
           </div>
@@ -101,7 +101,7 @@ export function FieldDetailsModal({
             <div>
               <p className="text-gray-400 text-sm">Populated Records</p>
               <p className="text-3xl font-bold text-white">
-                {field.populatedCount.toLocaleString()}
+                {field.populated_count.toLocaleString()}
               </p>
             </div>
           </div>
@@ -173,7 +173,7 @@ export function FieldDetailsModal({
             {populationRate > 0 && populationRate < 25 && (
               <li>• Implement data enrichment to fill missing values</li>
             )}
-            {field.formatCount && field.formatCount > 3 && (
+            {field.format_count && field.format_count > 3 && (
               <li>• Standardize data format to improve consistency</li>
             )}
             {field.warnings.some((w) => w.type === "DUPLICATE_DATA") && (

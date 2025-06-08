@@ -1,4 +1,5 @@
-import { DataQualityOverview } from "../components/report/DataQualityOverview";
+import { z } from "zod";
+import { DataQualityCards } from "../components/report/DataQualityCards";
 import { FieldAnalysisSection } from "../components/report/FieldAnalysisSection";
 import { GlobalIssuesSection } from "../components/report/GlobalIssuesSection";
 import { ReportHeader } from "../components/report/ReportHeader";
@@ -9,6 +10,17 @@ import {
   getReportByToken,
 } from "../models/report.server";
 import type { Route } from "./+types/reports.$reporttoken";
+
+// Zod schema for the report config
+const ReportConfigSchema = z.object({
+  critical_columns: z.object({
+    company_info: z.record(z.string()),
+    financial_data: z.record(z.string()),
+    size_and_structure: z.record(z.string()),
+  }),
+});
+
+type ReportConfig = z.infer<typeof ReportConfigSchema>;
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { reporttoken } = params;
@@ -27,16 +39,65 @@ export async function loader({ params }: Route.LoaderArgs) {
   const fieldCategories = getFieldsByCategory(report.fields, report);
   const issueStats = getIssueStats(report);
 
+  // Parse the config with Zod for type safety
+  const config = ReportConfigSchema.parse(report.config);
+
+  // Process columns data for DataQualityCards
+  const columns = [];
+
+  // Iterate through each category in the config
+  for (const [categorySlug, categoryColumns] of Object.entries(
+    config.critical_columns
+  )) {
+    for (const [displayName, actualColumnName] of Object.entries(
+      categoryColumns
+    )) {
+      // Find the corresponding field in the report by matching the actual column name
+      const field = report.fields.find(
+        (f) => f.column_name === actualColumnName
+      );
+
+      if (field) {
+        const fillPercentage = Math.round(
+          (field.populated_count / report.total_records) * 100
+        );
+
+        columns.push({
+          categorySlug,
+          name: displayName,
+          columnName: field.column_name,
+          fillPercentage,
+          warnings: field.warnings.map((w) => ({
+            id: w.id,
+            message: w.message,
+            severity: w.severity,
+          })),
+        });
+      } else {
+        // If field doesn't exist in report, still include it with 0% fill
+        columns.push({
+          categorySlug,
+          name: displayName,
+          columnName: actualColumnName,
+          fillPercentage: 0,
+          warnings: [],
+        });
+      }
+    }
+  }
+
   return {
     report,
     dataQualityScore,
     fieldCategories,
     issueStats,
+    columns,
   };
 }
 
 export default function ReportPage({ loaderData }: Route.ComponentProps) {
-  const { report, dataQualityScore, fieldCategories, issueStats } = loaderData;
+  const { report, dataQualityScore, fieldCategories, issueStats, columns } =
+    loaderData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -52,28 +113,29 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
         <div className="relative z-10">
           <div className="container mx-auto px-4 py-8 max-w-7xl">
             <ReportHeader
-              companyName={report.companyName}
-              generatedAt={report.generatedAt}
-              totalRecords={report.totalRecords}
-              totalFields={report.totalFields}
+              companyName={report.company_name}
+              generatedAt={report.generated_at}
+              totalRecords={report.total_records}
+              totalFields={report.total_fields}
+              fieldsWithIssues={report.fields_with_issues}
               dataQualityScore={dataQualityScore}
             />
 
-            <DataQualityOverview
-              issueStats={issueStats}
+            <DataQualityCards
+              report={report}
               fieldCategories={fieldCategories}
-              totalFields={report.totalFields}
+              columns={columns}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
               <div className="lg:col-span-2">
                 <FieldAnalysisSection
                   fieldCategories={fieldCategories}
-                  totalRecords={report.totalRecords}
+                  totalRecords={report.total_records}
                 />
               </div>
               <div className="lg:col-span-1">
-                <GlobalIssuesSection globalIssues={report.globalIssues} />
+                <GlobalIssuesSection globalIssues={report.global_issues} />
               </div>
             </div>
           </div>

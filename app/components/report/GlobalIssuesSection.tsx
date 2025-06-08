@@ -82,19 +82,19 @@ export function GlobalIssuesSection({
                 </div>
                 <p className="text-gray-300 text-sm">{issue.description}</p>
 
-                {issue.metadata && (
+                {issue.meta && (
                   <div className="mt-3 pt-3 border-t border-white/10">
                     <div className="grid grid-cols-2 gap-2 text-sm">
-                      {Object.entries(
-                        issue.metadata as Record<string, any>
-                      ).map(([key, value]) => (
-                        <div key={key}>
-                          <span className="text-gray-400">{key}:</span>
-                          <span className="text-gray-300 ml-1">
-                            {String(value)}
-                          </span>
-                        </div>
-                      ))}
+                      {Object.entries(issue.meta as Record<string, any>).map(
+                        ([key, value]) => (
+                          <div key={key}>
+                            <span className="text-gray-400">{key}:</span>
+                            <span className="text-gray-300 ml-1">
+                              {String(value)}
+                            </span>
+                          </div>
+                        )
+                      )}
                     </div>
                   </div>
                 )}

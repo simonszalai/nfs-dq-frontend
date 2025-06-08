@@ -5,6 +5,7 @@ interface ReportHeaderProps {
   generatedAt: Date | string;
   totalRecords: number;
   totalFields: number;
+  fieldsWithIssues: number;
   dataQualityScore: number;
 }
 
@@ -13,6 +14,7 @@ export function ReportHeader({
   generatedAt,
   totalRecords,
   totalFields,
+  fieldsWithIssues,
   dataQualityScore,
 }: ReportHeaderProps) {
   const date =
@@ -90,9 +92,9 @@ export function ReportHeader({
             </p>
           </div>
           <div>
-            <p className="text-gray-400 text-sm">Fields Analyzed</p>
+            <p className="text-gray-400 text-sm">Fields With Issues</p>
             <p className="text-2xl font-semibold text-white mt-1">
-              {totalFields.toLocaleString()}
+              {fieldsWithIssues.toLocaleString()}
             </p>
           </div>
           <div>

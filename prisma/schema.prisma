@@ -14,7 +14,6 @@ model Field {
   populated_count Int
   inferred_type   String    @db.VarChar
   format_count    Int?
-  created_at      DateTime  @db.Timestamp(6)
   report          Report    @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   warnings        Warning[]
 }
@@ -27,7 +26,6 @@ model GlobalIssue {
   description String   @db.VarChar
   severity    Severity
   meta        Json?    @db.Json
-  created_at  DateTime @db.Timestamp(6)
   report      Report   @relation(fields: [report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
@@ -41,20 +39,18 @@ model Report {
   fields_with_issues Int
   config             Json?         @db.Json
   created_at         DateTime      @db.Timestamp(6)
-  updated_at         DateTime      @db.Timestamp(6)
   fields             Field[]
   global_issues      GlobalIssue[]
 }
 
 model Warning {
-  id         String      @id @db.VarChar
-  field_id   String      @db.VarChar
-  type       WarningType
-  message    String      @db.VarChar
-  severity   Severity
-  meta       Json?       @db.Json
-  created_at DateTime    @db.Timestamp(6)
-  field      Field       @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id       String      @id @db.VarChar
+  field_id String      @db.VarChar
+  type     WarningType
+  message  String      @db.VarChar
+  severity Severity
+  meta     Json?       @db.Json
+  field    Field       @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 enum Severity {

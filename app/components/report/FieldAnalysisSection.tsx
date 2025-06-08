@@ -68,9 +68,9 @@ export function FieldAnalysisSection({
 
   // Prepare data for Rosen chart
   const chartData = fieldsToDisplay.slice(0, 20).map((field) => ({
-    name: field.columnName,
-    value: Math.round((field.populatedCount / totalRecords) * 100),
-    populatedCount: field.populatedCount,
+    name: field.column_name,
+    value: Math.round((field.populated_count / totalRecords) * 100),
+    populatedCount: field.populated_count,
     warnings: field.warnings.length,
   }));
 
@@ -114,7 +114,7 @@ export function FieldAnalysisSection({
                 data={chartData}
                 onFieldClick={(field) => {
                   const fullField = fieldsToDisplay.find(
-                    (f) => f.columnName === field.name
+                    (f) => f.column_name === field.name
                   );
                   if (fullField) setSelectedField(fullField);
                 }}
@@ -127,7 +127,7 @@ export function FieldAnalysisSection({
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {fieldsToDisplay.map((field) => {
             const populationRate = Math.round(
-              (field.populatedCount / totalRecords) * 100
+              (field.populated_count / totalRecords) * 100
             );
             const severityColor =
               populationRate === 0
@@ -147,13 +147,13 @@ export function FieldAnalysisSection({
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <h4 className="text-white font-medium">
-                      {field.columnName}
+                      {field.column_name}
                     </h4>
                     <div className="flex items-center gap-4 mt-2">
                       <span className="text-gray-400 text-sm">
                         Type:{" "}
                         <span className="text-gray-300">
-                          {field.inferredType}
+                          {field.inferred_type}
                         </span>
                       </span>
                       {field.warnings.length > 0 && (
@@ -169,7 +169,7 @@ export function FieldAnalysisSection({
                       {populationRate}%
                     </div>
                     <div className="text-gray-400 text-sm">
-                      {field.populatedCount.toLocaleString()} records
+                      {field.populated_count.toLocaleString()} records
                     </div>
                     <div
                       className={`w-24 h-2 ${severityColor} rounded-full mt-2`}

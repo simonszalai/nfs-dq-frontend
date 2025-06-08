@@ -54,35 +54,53 @@ export function DataQualityOverview({
     },
   ];
 
+  // Calculate exact percentages first
+  const exactPercentages = [
+    (fieldCategories.empty.length / totalFields) * 100,
+    (fieldCategories.critical.length / totalFields) * 100,
+    (fieldCategories.warning.length / totalFields) * 100,
+    (fieldCategories.good.length / totalFields) * 100,
+  ];
+
+  // Round percentages and ensure they add up to 100%
+  const roundedPercentages = exactPercentages.map((p) => Math.floor(p));
+  const remainder = 100 - roundedPercentages.reduce((sum, p) => sum + p, 0);
+
+  // Distribute the remainder based on decimal parts
+  const decimalParts = exactPercentages.map((p, i) => ({
+    index: i,
+    decimal: p - roundedPercentages[i],
+  }));
+  decimalParts.sort((a, b) => b.decimal - a.decimal);
+
+  // Add 1% to the categories with the largest decimal parts
+  for (let i = 0; i < remainder; i++) {
+    roundedPercentages[decimalParts[i].index]++;
+  }
+
   const fieldStats = [
     {
       label: "Empty Fields",
       count: fieldCategories.empty.length,
-      percentage: Math.round(
-        (fieldCategories.empty.length / totalFields) * 100
-      ),
+      percentage: roundedPercentages[0],
       color: "bg-red-500",
     },
     {
       label: "Critical Fields",
       count: fieldCategories.critical.length,
-      percentage: Math.round(
-        (fieldCategories.critical.length / totalFields) * 100
-      ),
+      percentage: roundedPercentages[1],
       color: "bg-orange-500",
     },
     {
       label: "Warning Fields",
       count: fieldCategories.warning.length,
-      percentage: Math.round(
-        (fieldCategories.warning.length / totalFields) * 100
-      ),
+      percentage: roundedPercentages[2],
       color: "bg-yellow-500",
     },
     {
       label: "Good Fields",
       count: fieldCategories.good.length,
-      percentage: Math.round((fieldCategories.good.length / totalFields) * 100),
+      percentage: roundedPercentages[3],
       color: "bg-emerald-500",
     },
   ];
