@@ -82,6 +82,55 @@ Make sure to deploy the output of `npm run build`
 
 This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
 
+## Deployment to Render
+
+This application is configured to deploy on Render with a PostgreSQL database.
+
+### Prerequisites
+
+1. A Render account
+2. GitHub repository connected to Render
+3. An existing PostgreSQL database on Render
+
+### Deployment Steps
+
+1. **Create a new Web Service on Render:**
+
+   - Connect your GitHub repository
+   - Render will automatically detect the `render.yaml` file
+
+2. **Environment Variables:**
+
+   - `DATABASE_URL` - Set this manually to your existing database connection string
+     - Go to your existing database on Render dashboard
+     - Copy the "External Database URL" or "Internal Database URL"
+     - Add this as an environment variable in your web service
+   - `NODE_ENV` - Set to "production" (already configured in render.yaml)
+
+3. **Get Your Database Connection String:**
+
+   - In your Render dashboard, go to your existing database
+   - Copy the connection string from the "Connections" section
+   - Use the "External Database URL" for connecting from your web service
+
+4. **Database:**
+
+   - Your existing database will be used
+   - Migrations will run automatically on each deployment via the start script
+
+5. **Manual Deployment:**
+   If you prefer manual deployment without render.yaml:
+   - Create a Web Service with Docker runtime
+   - Set the DATABASE_URL environment variable to your existing database URL
+   - Deploy
+
+### Notes
+
+- Make sure your existing database is accessible from your web service
+- Database migrations run automatically before the app starts
+- The Dockerfile handles all build steps including Prisma client generation
+- If you need to run migrations manually, you can use the Render shell to run `npx prisma migrate deploy`
+
 ---
 
 Built with ❤️ using React Router.

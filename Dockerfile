@@ -18,5 +18,14 @@ FROM node:20-alpine
 COPY ./package.json package-lock.json /app/
 COPY --from=production-dependencies-env /app/node_modules /app/node_modules
 COPY --from=build-env /app/build /app/build
+COPY ./prisma /app/prisma
+COPY ./scripts/start.sh /app/scripts/start.sh
 WORKDIR /app
-CMD ["npm", "run", "start"]
+
+# Generate Prisma client
+RUN npx prisma generate
+
+# Make start script executable
+RUN chmod +x /app/scripts/start.sh
+
+CMD ["/app/scripts/start.sh"]

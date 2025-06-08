@@ -44,72 +44,175 @@ export function ReportHeader({
       : 0;
 
   return (
-    <div className="mb-8">
-      {/* Main header card */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-lg p-8 border border-white/20 shadow-xl">
-        <div className="flex flex-col gap-6">
-          {/* Top Section - Company info and Quality Score */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            {/* Left side - Company info */}
-            <div>
-              <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                {companyName}
-              </h1>
-              <p className="text-gray-300 text-lg">
-                Data Quality Analysis Report
-              </p>
-              <p className="text-gray-400 text-sm mt-2">
-                Generated {format(date, "PPP 'at' p")}
-              </p>
+    <div className="mb-8 space-y-6">
+      {/* Company and Report Info */}
+      <div className="text-center space-y-2">
+        <h1 className="text-5xl md:text-6xl font-bold text-white">
+          {companyName}
+        </h1>
+        <p className="text-xl text-gray-300">Data Quality Analysis</p>
+        <p className="text-sm text-gray-500">
+          {format(date, "MMMM d, yyyy 'at' h:mm a")}
+        </p>
+      </div>
+
+      {/* Main Metrics Section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Quality Score Card - Featured */}
+        <div className="md:col-span-1 relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
+          <div className="relative">
+            <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
+              Overall Score
+            </p>
+            <div className="flex items-baseline gap-2">
+              <span
+                className={`text-6xl font-bold ${getScoreColor(
+                  dataQualityScore
+                )}`}
+              >
+                {dataQualityScore}
+              </span>
+              <span className="text-2xl text-gray-400">%</span>
             </div>
+            <p className="text-sm text-gray-500 mt-4">
+              {percentageWithoutIssues}% columns clean
+            </p>
+          </div>
+        </div>
 
-            {/* Right side - Quality Score (now more prominent) */}
-            <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-8">
-              <div className="text-center">
-                <p className="text-gray-400 text-sm mb-2">Data Quality Score</p>
-                <p
-                  className={`text-5xl lg:text-6xl font-bold ${getScoreColor(
-                    dataQualityScore
-                  )} cursor-help transition-all hover:scale-105`}
-                  title={`${percentageWithoutIssues}% of columns without any issues`}
-                >
-                  {dataQualityScore}%
+        {/* Data Overview */}
+        <div className="md:col-span-1 space-y-4">
+          <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-white">
+                  {totalRecords.toLocaleString()}
                 </p>
+                <p className="text-sm text-gray-400 mt-1">Total Records</p>
               </div>
+              <div className="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-blue-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
 
-              {/* Metrics Cards */}
-              <div className="flex gap-3 lg:gap-4">
-                <div className="bg-white/5 rounded-lg px-3 lg:px-4 py-2 lg:py-3 border border-white/10">
-                  <p className="text-gray-400 text-xs">Records</p>
-                  <p className="text-white font-semibold text-base lg:text-lg">
-                    {totalRecords.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-white/5 rounded-lg px-3 lg:px-4 py-2 lg:py-3 border border-white/10">
-                  <p className="text-gray-400 text-xs">Fields</p>
-                  <p className="text-white font-semibold text-base lg:text-lg">
-                    {totalFields.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-white/5 rounded-lg px-3 lg:px-4 py-2 lg:py-3 border border-white/10">
-                  <p className="text-gray-400 text-xs">Issues</p>
-                  <p className="text-white font-semibold text-base lg:text-lg">
-                    {fieldsWithIssues.toLocaleString()}
-                  </p>
-                </div>
+          <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-3xl font-bold text-white">
+                  {totalFields.toLocaleString()}
+                </p>
+                <p className="text-sm text-gray-400 mt-1">Data Fields</p>
+              </div>
+              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+                <svg
+                  className="w-6 h-6 text-purple-400"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Issue Severity Distribution */}
-        <div className="mt-8 pt-6 border-t border-white/10">
-          <h3 className="text-sm text-gray-400 mb-4">
-            Issue Severity Distribution
-          </h3>
-          <IssueSeverityBar issueStats={issueStats} />
+        {/* Issues Summary */}
+        <div className="md:col-span-1 rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+          <div className="flex items-center justify-between mb-6">
+            <p className="text-sm text-gray-400 uppercase tracking-wider">
+              Issue Summary
+            </p>
+            <div className="w-10 h-10 rounded-full bg-orange-500/20 flex items-center justify-center">
+              <svg
+                className="w-5 h-5 text-orange-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-300">Fields with Issues</span>
+              <span className="text-2xl font-bold text-white">
+                {fieldsWithIssues}
+              </span>
+            </div>
+            <div className="space-y-2">
+              {issueStats.critical > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-red-400">Critical</span>
+                  <span className="text-red-400 font-medium">
+                    {issueStats.critical}
+                  </span>
+                </div>
+              )}
+              {issueStats.high > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-orange-400">High</span>
+                  <span className="text-orange-400 font-medium">
+                    {issueStats.high}
+                  </span>
+                </div>
+              )}
+              {issueStats.medium > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-yellow-400">Medium</span>
+                  <span className="text-yellow-400 font-medium">
+                    {issueStats.medium}
+                  </span>
+                </div>
+              )}
+              {issueStats.low > 0 && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-blue-400">Low</span>
+                  <span className="text-blue-400 font-medium">
+                    {issueStats.low}
+                  </span>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
+
+      {/* Issue Distribution Bar */}
+      {issueStats.total > 0 && (
+        <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+          <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
+            Issue Distribution
+          </p>
+          <IssueSeverityBar issueStats={issueStats} />
+        </div>
+      )}
     </div>
   );
 }

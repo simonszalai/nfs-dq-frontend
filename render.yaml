@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: nfs-dq
+    runtime: docker
+    plan: starter # Change to 'starter' or higher for production
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false # This will be set manually to your existing database
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+    healthCheckPath: /
+    autoDeploy: true # Set to true if you want automatic deploys from your repo
