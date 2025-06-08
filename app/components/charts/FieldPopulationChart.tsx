@@ -21,12 +21,27 @@ export function FieldPopulationChart({
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current || !scrollContainerRef.current || !data.length)
+    if (!containerRef.current || !scrollContainerRef.current || !data.length) {
+      console.log("FieldPopulationChart: Missing requirements", {
+        containerRef: !!containerRef.current,
+        scrollContainerRef: !!scrollContainerRef.current,
+        dataLength: data.length,
+      });
       return;
+    }
 
     const container = containerRef.current;
     const scrollContainer = scrollContainerRef.current;
     const { width: containerWidth, height } = container.getBoundingClientRect();
+
+    // Ensure container has dimensions
+    if (containerWidth === 0 || height === 0) {
+      console.log("FieldPopulationChart: Container has no dimensions", {
+        containerWidth,
+        height,
+      });
+      return;
+    }
 
     // Cancel any ongoing transitions
     d3.select(container).selectAll("*").interrupt();
@@ -323,11 +338,10 @@ export function FieldPopulationChart({
   }, [data, onFieldClick]);
 
   return (
-    <div ref={containerRef} className="relative w-full h-full">
+    <div ref={containerRef} className="relative w-full h-full overflow-hidden">
       <div
         ref={scrollContainerRef}
-        className="absolute top-0 bottom-0 right-0 overflow-x-auto overflow-y-hidden"
-        style={{ left: "50px" }}
+        className="absolute top-0 bottom-0 right-0 left-[50px] overflow-x-auto overflow-y-hidden"
       />
     </div>
   );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { ReportWithRelations } from "../../models/report.server";
-import { WarningModal } from "./WarningModal";
+import { FieldDetailsModal } from "./FieldDetailsModal";
 
 interface DataQualityCardsProps {
   report: ReportWithRelations;
@@ -9,6 +9,7 @@ interface DataQualityCardsProps {
     name: string;
     columnName: string;
     fillPercentage: number;
+    field?: ReportWithRelations["fields"][0];
     warnings: Array<{
       id: string;
       message: string;
@@ -40,10 +41,9 @@ const CATEGORIES = [
 ];
 
 export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
-  const [activeModal, setActiveModal] = useState<{
-    columnName: string;
-    displayName: string;
-  } | null>(null);
+  const [selectedField, setSelectedField] = useState<
+    ReportWithRelations["fields"][0] | null
+  >(null);
 
   // Group columns by category
   const columnsByCategory = columns.reduce((acc, column) => {
@@ -98,23 +98,6 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
     return warnings;
   };
 
-  // Get warnings for modal display
-  const getWarningsForModal = () => {
-    if (!activeModal) return [];
-
-    const column = columns.find((c) => c.columnName === activeModal.columnName);
-    if (!column) return [];
-
-    const columnWarnings = getColumnWarnings(column);
-    return columnWarnings.map((warning) => ({
-      id: warning.id,
-      field: column.name,
-      issue: warning.message,
-      severity: warning.severity,
-      description: `Fill rate: ${column.fillPercentage}%`,
-    }));
-  };
-
   return (
     <>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
@@ -124,7 +107,7 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
           return (
             <div
               key={category.slug}
-              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col h-[400px]"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
             >
               {/* Header section */}
               <div className="flex-shrink-0">
@@ -159,12 +142,11 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
                             {/* Warning indicator or checkmark */}
                             {warningCount > 0 ? (
                               <button
-                                onClick={() =>
-                                  setActiveModal({
-                                    columnName: column.columnName,
-                                    displayName: column.name,
-                                  })
-                                }
+                                onClick={() => {
+                                  if (column.field) {
+                                    setSelectedField(column.field);
+                                  }
+                                }}
                                 className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium transition-all hover:scale-105 ${
                                   hasCritical
                                     ? "bg-red-500/20 text-red-400 hover:bg-red-500/30"
@@ -252,12 +234,13 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
       </div>
 
       {/* Column-specific Warning Modal */}
-      <WarningModal
-        isOpen={activeModal !== null}
-        onClose={() => setActiveModal(null)}
-        warnings={getWarningsForModal()}
-        title={activeModal ? `${activeModal.displayName} Issues` : ""}
-      />
+      {selectedField && (
+        <FieldDetailsModal
+          field={selectedField}
+          totalRecords={report.total_records}
+          onClose={() => setSelectedField(null)}
+        />
+      )}
     </>
   );
 }

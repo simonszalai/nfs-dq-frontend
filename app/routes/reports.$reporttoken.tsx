@@ -1,7 +1,9 @@
 import { z } from "zod";
 import { DataQualityCards } from "../components/report/DataQualityCards";
+import { EnrichmentPlan } from "../components/report/EnrichmentPlan";
 import { FieldAnalysisSection } from "../components/report/FieldAnalysisSection";
 import { GlobalIssuesSection } from "../components/report/GlobalIssuesSection";
+import { RecommendedActions } from "../components/report/RecommendedActions";
 import { ReportHeader } from "../components/report/ReportHeader";
 import {
   calculateDataQualityScore,
@@ -65,6 +67,7 @@ export async function loader({ params }: Route.LoaderArgs) {
           name: displayName,
           columnName: field.column_name,
           fillPercentage,
+          field,
           warnings: field.warnings.map((w) => ({
             id: w.id,
             message: w.message,
@@ -115,6 +118,7 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
               totalFields={report.total_fields}
               fieldsWithIssues={report.fields_with_issues}
               dataQualityScore={dataQualityScore}
+              issueStats={issueStats}
             />
 
             <DataQualityCards report={report} columns={columns} />
@@ -130,6 +134,10 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
                 <GlobalIssuesSection globalIssues={report.global_issues} />
               </div>
             </div>
+
+            {/* Add Recommended Actions and Enrichment Plan */}
+            <RecommendedActions report={report} issueStats={issueStats} />
+            <EnrichmentPlan report={report} columns={columns} />
           </div>
         </div>
       </div>

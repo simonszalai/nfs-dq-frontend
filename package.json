@@ -27,6 +27,7 @@
     "zod": "^3.25.56"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.7.10",
     "@react-router/dev": "^7.5.3",
     "@tailwindcss/vite": "^4.1.4",
     "@types/node": "^20",

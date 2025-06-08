@@ -39,7 +39,7 @@ export function GlobalIssuesSection({
 
   if (globalIssues.length === 0) {
     return (
-      <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+      <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 relative z-20">
         <h3 className="text-xl font-semibold text-white mb-4">
           System-Wide Issues
         </h3>
@@ -54,7 +54,7 @@ export function GlobalIssuesSection({
   }
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20">
+    <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/20 relative z-20">
       <h3 className="text-xl font-semibold text-white mb-4">
         System-Wide Issues
       </h3>
