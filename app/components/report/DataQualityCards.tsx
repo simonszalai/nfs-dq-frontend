@@ -4,12 +4,6 @@ import { WarningModal } from "./WarningModal";
 
 interface DataQualityCardsProps {
   report: ReportWithRelations;
-  fieldCategories: {
-    critical: ReportWithRelations["fields"];
-    warning: ReportWithRelations["fields"];
-    good: ReportWithRelations["fields"];
-    empty: ReportWithRelations["fields"];
-  };
   columns: Array<{
     categorySlug: string;
     name: string;
@@ -45,11 +39,7 @@ const CATEGORIES = [
   },
 ];
 
-export function DataQualityCards({
-  report,
-  fieldCategories,
-  columns,
-}: DataQualityCardsProps) {
+export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
   const [activeModal, setActiveModal] = useState<{
     columnName: string;
     displayName: string;
@@ -134,7 +124,7 @@ export function DataQualityCards({
           return (
             <div
               key={category.slug}
-              className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 border border-white/20 hover:border-white/30 transition-all duration-300 flex flex-col h-[400px]"
+              className="bg-white/10 backdrop-blur-lg rounded-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col h-[400px]"
             >
               {/* Header section */}
               <div className="flex-shrink-0">

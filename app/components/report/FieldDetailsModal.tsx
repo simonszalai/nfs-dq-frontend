@@ -49,7 +49,7 @@ export function FieldDetailsModal({
       />
 
       {/* Modal */}
-      <div className="relative bg-gray-900 rounded-3xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl">
+      <div className="relative bg-gray-900 rounded-lg p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-white/20 shadow-2xl">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -89,7 +89,7 @@ export function FieldDetailsModal({
         </div>
 
         {/* Population Stats */}
-        <div className="bg-white/5 rounded-2xl p-6 mb-6">
+        <div className="bg-white/5 rounded-md p-6 mb-6">
           <h3 className="text-lg font-semibold text-white mb-4">
             Population Statistics
           </h3>
@@ -127,7 +127,7 @@ export function FieldDetailsModal({
 
         {/* Warnings */}
         {field.warnings.length > 0 && (
-          <div className="bg-white/5 rounded-2xl p-6">
+          <div className="bg-white/5 rounded-md p-6">
             <h3 className="text-lg font-semibold text-white mb-4">
               Warnings ({field.warnings.length})
             </h3>

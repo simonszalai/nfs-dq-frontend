@@ -5,7 +5,6 @@ import { GlobalIssuesSection } from "../components/report/GlobalIssuesSection";
 import { ReportHeader } from "../components/report/ReportHeader";
 import {
   calculateDataQualityScore,
-  getFieldsByCategory,
   getIssueStats,
   getReportByToken,
 } from "../models/report.server";
@@ -36,7 +35,6 @@ export async function loader({ params }: Route.LoaderArgs) {
   }
 
   const dataQualityScore = calculateDataQualityScore(report);
-  const fieldCategories = getFieldsByCategory(report.fields, report);
   const issueStats = getIssueStats(report);
 
   // Parse the config with Zod for type safety
@@ -89,15 +87,13 @@ export async function loader({ params }: Route.LoaderArgs) {
   return {
     report,
     dataQualityScore,
-    fieldCategories,
     issueStats,
     columns,
   };
 }
 
 export default function ReportPage({ loaderData }: Route.ComponentProps) {
-  const { report, dataQualityScore, fieldCategories, issueStats, columns } =
-    loaderData;
+  const { report, dataQualityScore, issueStats, columns } = loaderData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -111,7 +107,7 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
 
         {/* Main content */}
         <div className="relative z-10">
-          <div className="container mx-auto px-4 py-8 max-w-7xl">
+          <div className="container mx-auto px-6 py-8 max-w-7xl">
             <ReportHeader
               companyName={report.company_name}
               generatedAt={report.generated_at}
@@ -121,16 +117,12 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
               dataQualityScore={dataQualityScore}
             />
 
-            <DataQualityCards
-              report={report}
-              fieldCategories={fieldCategories}
-              columns={columns}
-            />
+            <DataQualityCards report={report} columns={columns} />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
               <div className="lg:col-span-2">
                 <FieldAnalysisSection
-                  fieldCategories={fieldCategories}
+                  fields={report.fields}
                   totalRecords={report.total_records}
                 />
               </div>

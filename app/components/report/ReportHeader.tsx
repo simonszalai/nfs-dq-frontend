@@ -23,7 +23,7 @@ export function ReportHeader({
   return (
     <div className="mb-8">
       {/* Main header card */}
-      <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-xl">
+      <div className="bg-white/10 backdrop-blur-lg rounded-lg p-8 border border-white/20 shadow-xl">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
