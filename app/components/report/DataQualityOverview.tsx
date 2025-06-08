@@ -167,7 +167,7 @@ export function DataQualityOverview({
 
         {/* Stacked Bar Chart */}
         <div className="mb-6">
-          <div className="h-8 bg-white/5 overflow-hidden flex">
+          <div className="h-8 bg-white/5 rounded-md overflow-hidden flex">
             {fieldStats.map((stat) => (
               <div
                 key={stat.label}

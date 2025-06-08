@@ -93,7 +93,7 @@ export function ReportHeader({
                 </p>
                 <p className="text-sm text-gray-400 mt-1">Total Records</p>
               </div>
-              <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center">
+              <div className="w-12 h-12 bg-blue-500/20 flex items-center justify-center rounded-full">
                 <svg
                   className="w-6 h-6 text-blue-400"
                   fill="none"
@@ -119,7 +119,7 @@ export function ReportHeader({
                 </p>
                 <p className="text-sm text-gray-400 mt-1">Data Fields</p>
               </div>
-              <div className="w-12 h-12 bg-purple-500/20 flex items-center justify-center">
+              <div className="w-12 h-12 bg-purple-500/20 flex items-center justify-center rounded-full">
                 <svg
                   className="w-6 h-6 text-purple-400"
                   fill="none"
@@ -144,7 +144,7 @@ export function ReportHeader({
             <p className="text-sm text-gray-400 uppercase tracking-wider">
               Issue Summary
             </p>
-            <div className="w-10 h-10 bg-orange-500/20 flex items-center justify-center">
+            <div className="w-10 h-10 bg-orange-500/20 flex items-center justify-center rounded-full">
               <svg
                 className="w-5 h-5 text-orange-400"
                 fill="none"
@@ -216,7 +216,7 @@ export function ReportHeader({
             {/* Population bars */}
             <div className="flex items-center gap-4">
               <div className="flex-1">
-                <div className="h-8 flex overflow-hidden">
+                <div className="h-8 flex overflow-hidden rounded-sm">
                   {populationStats.high > 0 && (
                     <div
                       className="bg-emerald-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
@@ -271,19 +271,19 @@ export function ReportHeader({
             {/* Legend */}
             <div className="flex flex-wrap gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-emerald-500"></div>
+                <div className="w-4 h-4 bg-emerald-500 rounded-full"></div>
                 <span className="text-gray-400">&gt;75% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-yellow-500"></div>
+                <div className="w-4 h-4 bg-yellow-500 rounded-full"></div>
                 <span className="text-gray-400">25-75% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-orange-500"></div>
+                <div className="w-4 h-4 bg-orange-500 rounded-full"></div>
                 <span className="text-gray-400">&lt;25% populated</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-4 h-4 bg-red-500"></div>
+                <div className="w-4 h-4 bg-red-500 rounded-full"></div>
                 <span className="text-gray-400">Empty</span>
               </div>
             </div>
