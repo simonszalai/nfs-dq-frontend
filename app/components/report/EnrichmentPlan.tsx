@@ -125,7 +125,7 @@ export function EnrichmentPlan({ report, columns }: EnrichmentPlanProps) {
 
   return (
     <div className="mt-8 mb-8">
-      <div className="bg-gradient-to-br from-green-900/90 to-green-800/90 p-8 border border-green-700">
+      <div className="bg-gradient-to-br from-green-900/90 to-green-800/90 rounded-sm p-8 border border-green-700">
         <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
           <span className="text-3xl">🎯</span>
           Our Enrichment Plan
@@ -139,7 +139,7 @@ export function EnrichmentPlan({ report, columns }: EnrichmentPlanProps) {
           {enrichmentItems.map((item, index) => (
             <div
               key={index}
-              className="flex items-start gap-4 p-4 bg-gray-900/30 border border-green-700/50 hover:bg-gray-900/40 transition-colors"
+              className="flex items-start gap-4 p-4 bg-gray-900/30 rounded-sm border border-green-700/50 hover:bg-gray-900/40 transition-colors"
             >
               <span className="text-2xl flex-shrink-0">{item.icon}</span>
               <div className="flex-1">
@@ -157,7 +157,7 @@ export function EnrichmentPlan({ report, columns }: EnrichmentPlanProps) {
 
         {/* Add specific warnings if critical data is missing */}
         {(hasRevenueMissing || hasFundingMissing) && (
-          <div className="mt-6 p-4 bg-yellow-900/20 border border-yellow-700">
+          <div className="mt-6 p-4 bg-yellow-900/20 border border-yellow-700 rounded-sm">
             <p className="text-yellow-300 font-medium">
               ⚠️ Critical financial data is severely lacking - this
               significantly impacts your ability to qualify and prioritize leads
@@ -166,7 +166,7 @@ export function EnrichmentPlan({ report, columns }: EnrichmentPlanProps) {
         )}
 
         {hasContactMissing && (
-          <div className="mt-4 p-4 bg-orange-900/20 border border-orange-700">
+          <div className="mt-4 p-4 bg-orange-900/20 border border-orange-700 rounded-sm">
             <p className="text-orange-300 font-medium">
               📧 Contact information gaps detected - enrichment will improve
               outreach effectiveness

@@ -107,7 +107,7 @@ export function DataQualityCards({ report, columns }: DataQualityCardsProps) {
           return (
             <div
               key={category.slug}
-              className="bg-white/10 backdrop-blur-lg p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
+              className="bg-white/10 backdrop-blur-lg rounded-sm p-6 border border-white/10 hover:border-white/20 transition-all duration-300 flex flex-col"
             >
               {/* Header section */}
               <div className="flex-shrink-0">

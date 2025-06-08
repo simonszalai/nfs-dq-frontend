@@ -68,7 +68,7 @@ export function FieldDetailsModal({
       />
 
       {/* Modal */}
-      <div className="relative bg-gray-900 p-8 max-w-2xl w-full max-h-[90vh] flex flex-col border border-white/20 shadow-2xl">
+      <div className="relative bg-gray-900 rounded-sm p-8 max-w-2xl w-full max-h-[90vh] flex flex-col border border-white/20 shadow-2xl">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -102,7 +102,7 @@ export function FieldDetailsModal({
         </div>
 
         {/* Population Stats */}
-        <div className="bg-white/5 p-6 mb-6">
+        <div className="bg-white/5 rounded-sm p-6 mb-6">
           <h3 className="text-lg font-semibold text-white mb-4">
             Population Statistics
           </h3>
@@ -140,7 +140,7 @@ export function FieldDetailsModal({
 
         {/* Warnings */}
         {field.warnings.length > 0 && (
-          <div className="bg-white/5 p-6 flex flex-col min-h-0">
+          <div className="bg-white/5 rounded-sm p-6 flex flex-col min-h-0">
             <h3 className="text-lg font-semibold text-white mb-4 flex-shrink-0">
               Warnings ({field.warnings.length})
             </h3>
@@ -188,7 +188,7 @@ export function FieldDetailsModal({
                             </div>
                           )}
                           {(warning.meta as any).examples && (
-                            <div className="mt-3 p-3 bg-black/20">
+                            <div className="mt-3 p-3 bg-black/20 rounded-sm">
                               <p className="text-xs text-gray-400 mb-1">
                                 Examples:
                               </p>

@@ -39,7 +39,7 @@ export function GlobalIssuesSection({
 
   if (globalIssues.length === 0) {
     return (
-      <div className="bg-white/10 backdrop-blur-lg p-6 border border-white/20 relative z-20">
+      <div className="bg-white/10 backdrop-blur-lg rounded-sm p-6 border border-white/20 relative z-20">
         <h3 className="text-xl font-semibold text-white mb-4">
           System-Wide Issues
         </h3>
@@ -54,7 +54,7 @@ export function GlobalIssuesSection({
   }
 
   return (
-    <div className="bg-white/10 backdrop-blur-lg p-6 border border-white/20 relative z-20">
+    <div className="bg-white/10 backdrop-blur-lg rounded-sm p-6 border border-white/20 relative z-20">
       <h3 className="text-xl font-semibold text-white mb-4">
         System-Wide Issues
       </h3>
@@ -63,7 +63,7 @@ export function GlobalIssuesSection({
         {globalIssues.map((issue) => (
           <div
             key={issue.id}
-            className="bg-white/5 p-4 hover:bg-white/10 transition-all duration-200"
+            className="bg-white/5 rounded-sm p-4 hover:bg-white/10 transition-all duration-200"
           >
             <div className="flex items-start gap-3">
               <span className="text-2xl flex-shrink-0">

@@ -37,7 +37,7 @@ export function WarningModal({
       <div className="flex min-h-full items-center justify-center p-4 text-center">
         <div className="fixed inset-0 bg-black/50" onClick={onClose} />
 
-        <div className="relative transform overflow-hidden bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+        <div className="relative transform overflow-hidden rounded-sm bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
           <div className="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
             <div className="sm:flex sm:items-start">
               <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/20 sm:mx-0 sm:h-10 sm:w-10">
@@ -64,7 +64,7 @@ export function WarningModal({
                     {warnings.map((warning) => (
                       <div
                         key={warning.id}
-                        className="border border-gray-200 dark:border-gray-700 p-3"
+                        className="border border-gray-200 dark:border-gray-700 rounded-sm p-3"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -98,7 +98,7 @@ export function WarningModal({
           <div className="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
             <button
               type="button"
-              className="inline-flex w-full justify-center bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 sm:ml-3 sm:w-auto"
+              className="inline-flex w-full justify-center rounded-sm bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 sm:ml-3 sm:w-auto"
               onClick={onClose}
             >
               Close

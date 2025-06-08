@@ -65,7 +65,7 @@ export function ReportHeader({
       {/* Main Metrics Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Quality Score Card - Featured */}
-        <div className="md:col-span-1 relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
+        <div className="md:col-span-1 relative overflow-hidden rounded-sm bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl"></div>
           <div className="relative h-full flex items-center justify-center">
             <div className="text-center">
@@ -85,7 +85,7 @@ export function ReportHeader({
 
         {/* Data Overview */}
         <div className="md:col-span-1 space-y-4">
-          <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+          <div className="rounded-sm bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold text-white">
@@ -111,7 +111,7 @@ export function ReportHeader({
             </div>
           </div>
 
-          <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
+          <div className="rounded-sm bg-white/5 backdrop-blur-lg border border-white/10 p-6 hover:bg-white/8 transition-all">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-3xl font-bold text-white">
@@ -139,7 +139,7 @@ export function ReportHeader({
         </div>
 
         {/* Issues Summary */}
-        <div className="md:col-span-1 bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+        <div className="md:col-span-1 rounded-sm bg-white/5 backdrop-blur-lg border border-white/10 p-6">
           <div className="flex items-center justify-between mb-6">
             <p className="text-sm text-gray-400 uppercase tracking-wider">
               Issue Summary
@@ -208,7 +208,7 @@ export function ReportHeader({
 
       {/* Field Population Distribution Bar */}
       {populationStats && (
-        <div className="bg-white/5 backdrop-blur-lg border border-white/10 p-6">
+        <div className="rounded-sm bg-white/5 backdrop-blur-lg border border-white/10 p-6">
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
             Field Population Distribution
           </p>
