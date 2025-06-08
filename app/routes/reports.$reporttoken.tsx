@@ -39,6 +39,28 @@ export async function loader({ params }: Route.LoaderArgs) {
   const dataQualityScore = calculateDataQualityScore(report);
   const issueStats = getIssueStats(report);
 
+  // Calculate population stats
+  const populationStats = {
+    empty: 0,
+    low: 0, // >0-25%
+    medium: 0, // 25-75%
+    high: 0, // >75%
+  };
+
+  report.fields.forEach((field) => {
+    const populationRate = (field.populated_count / report.total_records) * 100;
+
+    if (populationRate === 0) {
+      populationStats.empty++;
+    } else if (populationRate <= 25) {
+      populationStats.low++;
+    } else if (populationRate <= 75) {
+      populationStats.medium++;
+    } else {
+      populationStats.high++;
+    }
+  });
+
   // Parse the config with Zod for type safety
   const config = ReportConfigSchema.parse(report.config);
 
@@ -91,12 +113,14 @@ export async function loader({ params }: Route.LoaderArgs) {
     report,
     dataQualityScore,
     issueStats,
+    populationStats,
     columns,
   };
 }
 
 export default function ReportPage({ loaderData }: Route.ComponentProps) {
-  const { report, dataQualityScore, issueStats, columns } = loaderData;
+  const { report, dataQualityScore, issueStats, populationStats, columns } =
+    loaderData;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900">
@@ -119,6 +143,7 @@ export default function ReportPage({ loaderData }: Route.ComponentProps) {
               fieldsWithIssues={report.fields_with_issues}
               dataQualityScore={dataQualityScore}
               issueStats={issueStats}
+              populationStats={populationStats}
             />
 
             <DataQualityCards report={report} columns={columns} />

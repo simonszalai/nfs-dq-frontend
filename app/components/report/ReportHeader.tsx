@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { IssueSeverityBar } from "../charts/IssueSeverityBar";
 
 interface ReportHeaderProps {
   companyName: string;
@@ -15,6 +14,12 @@ interface ReportHeaderProps {
     low: number;
     total: number;
   };
+  populationStats?: {
+    empty: number; // 0%
+    low: number; // >0-25%
+    medium: number; // 25-75%
+    high: number; // >75%
+  };
 }
 
 export function ReportHeader({
@@ -25,6 +30,7 @@ export function ReportHeader({
   fieldsWithIssues,
   dataQualityScore,
   issueStats,
+  populationStats,
 }: ReportHeaderProps) {
   const date =
     typeof generatedAt === "string" ? new Date(generatedAt) : generatedAt;
@@ -61,23 +67,19 @@ export function ReportHeader({
         {/* Quality Score Card - Featured */}
         <div className="md:col-span-1 relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg border border-white/20 p-8">
           <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-3xl"></div>
-          <div className="relative">
-            <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
-              Overall Score
-            </p>
-            <div className="flex items-baseline gap-2">
+          <div className="relative h-full flex items-center justify-center">
+            <div className="text-center">
+              <p className="text-sm text-gray-400 uppercase tracking-wider mb-2">
+                Data Quality Score
+              </p>
               <span
-                className={`text-6xl font-bold ${getScoreColor(
+                className={`text-8xl font-bold ${getScoreColor(
                   dataQualityScore
                 )}`}
               >
-                {dataQualityScore}
+                {dataQualityScore}%
               </span>
-              <span className="text-2xl text-gray-400">%</span>
             </div>
-            <p className="text-sm text-gray-500 mt-4">
-              {percentageWithoutIssues}% columns clean
-            </p>
           </div>
         </div>
 
@@ -204,13 +206,88 @@ export function ReportHeader({
         </div>
       </div>
 
-      {/* Issue Distribution Bar */}
-      {issueStats.total > 0 && (
+      {/* Field Population Distribution Bar */}
+      {populationStats && (
         <div className="rounded-2xl bg-white/5 backdrop-blur-lg border border-white/10 p-6">
           <p className="text-sm text-gray-400 uppercase tracking-wider mb-4">
-            Issue Distribution
+            Field Population Distribution
           </p>
-          <IssueSeverityBar issueStats={issueStats} />
+          <div className="space-y-4">
+            {/* Population bars */}
+            <div className="flex items-center gap-4">
+              <div className="flex-1">
+                <div className="h-8 flex rounded-lg overflow-hidden">
+                  {populationStats.high > 0 && (
+                    <div
+                      className="bg-emerald-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
+                      style={{
+                        width: `${(populationStats.high / totalFields) * 100}%`,
+                      }}
+                      title={`${populationStats.high} fields with >75% population`}
+                    >
+                      {populationStats.high}
+                    </div>
+                  )}
+                  {populationStats.medium > 0 && (
+                    <div
+                      className="bg-yellow-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
+                      style={{
+                        width: `${
+                          (populationStats.medium / totalFields) * 100
+                        }%`,
+                      }}
+                      title={`${populationStats.medium} fields with 25-75% population`}
+                    >
+                      {populationStats.medium}
+                    </div>
+                  )}
+                  {populationStats.low > 0 && (
+                    <div
+                      className="bg-orange-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
+                      style={{
+                        width: `${(populationStats.low / totalFields) * 100}%`,
+                      }}
+                      title={`${populationStats.low} fields with <25% population`}
+                    >
+                      {populationStats.low}
+                    </div>
+                  )}
+                  {populationStats.empty > 0 && (
+                    <div
+                      className="bg-red-500 flex items-center justify-center text-white text-sm font-medium transition-all hover:opacity-80"
+                      style={{
+                        width: `${
+                          (populationStats.empty / totalFields) * 100
+                        }%`,
+                      }}
+                      title={`${populationStats.empty} empty fields`}
+                    >
+                      {populationStats.empty}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Legend */}
+            <div className="flex flex-wrap gap-4 text-sm">
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-emerald-500 rounded"></div>
+                <span className="text-gray-400">&gt;75% populated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-yellow-500 rounded"></div>
+                <span className="text-gray-400">25-75% populated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-orange-500 rounded"></div>
+                <span className="text-gray-400">&lt;25% populated</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 bg-red-500 rounded"></div>
+                <span className="text-gray-400">Empty</span>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
