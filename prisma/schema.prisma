@@ -53,6 +53,53 @@ model Warning {
   field    Field       @relation(fields: [field_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
+model EnrichmentReport {
+  id                         String          @id @db.VarChar
+  token                      String          @unique @db.VarChar
+  filename                   String          @db.VarChar
+  created_at                 DateTime        @db.Timestamp(6)
+  total_rows                 Int
+  total_crm_columns          Int
+  total_export_columns       Int
+  new_columns_count          Int
+  many_to_one_count          Int
+  columns_reduced_by_merging Int
+  records_modified_count     Int
+  export_columns_created     Int
+  column_mappings            ColumnMapping[]
+}
+
+model ColumnMapping {
+  id                     String                 @id @db.VarChar
+  enrichment_report_id   String                 @db.VarChar
+  crm_column             String                 @db.VarChar
+  export_column          String?                @db.VarChar
+  is_many_to_one         Boolean                @default(false)
+  additional_crm_columns Json?                  @db.Json
+  confidence             Float
+  reasoning              String                 @db.VarChar
+  enrichment_report      EnrichmentReport       @relation(fields: [enrichment_report_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  comparison_stats       ColumnComparisonStats?
+}
+
+model ColumnComparisonStats {
+  id                        String        @id @db.VarChar
+  column_mapping_id         String        @unique @db.VarChar
+  discarded_invalid_data    Int           @default(0)
+  added_new_data            Int           @default(0)
+  fixed_data                Int           @default(0)
+  good_data                 Int           @default(0)
+  correct_values_before     Int           @default(0)
+  correct_values_after      Int           @default(0)
+  correct_percentage_before Float         @default(0.0)
+  correct_percentage_after  Float         @default(0.0)
+  crm_data_type             String?       @db.VarChar
+  crm_format_count          Int           @default(1)
+  export_data_type          String?       @db.VarChar
+  export_format_count       Int           @default(1)
+  column_mapping            ColumnMapping @relation(fields: [column_mapping_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
 enum Severity {
   LOW
   MEDIUM
