@@ -1,7 +1,6 @@
 import { ColumnMappingsSection } from "../components/enhancement/ColumnMappingsSection";
 import { DataComparisonStats } from "../components/enhancement/DataComparisonStats";
 import { EnhancementHeader } from "../components/enhancement/EnhancementHeader";
-import { EnhancementOverview } from "../components/enhancement/EnhancementOverview";
 import { getEnhancementReportByToken } from "../models/enhancement.server";
 import type { Route } from "./+types/enhancements.$reporttoken";
 
@@ -103,17 +102,6 @@ export default function EnhancementReportPage({
               totalDataPointsEnhanced={totalDataPointsEnhanced}
               enhancementCoverage={enhancementCoverage}
               recordsModified={enhancementReport.records_modified_count}
-            />
-
-            <EnhancementOverview
-              totalCrmColumns={enhancementReport.total_crm_columns}
-              totalExportColumns={enhancementReport.total_export_columns}
-              newColumnsCount={enhancementReport.new_columns_count}
-              manyToOneCount={enhancementReport.many_to_one_count}
-              columnsReducedByMerging={
-                enhancementReport.columns_reduced_by_merging
-              }
-              exportColumnsCreated={enhancementReport.export_columns_created}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

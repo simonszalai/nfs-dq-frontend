@@ -16,12 +16,6 @@ export function ColumnMappingsSection({
     (mapping) => mapping.comparison_stats
   );
 
-  const getConfidenceColor = (confidence: number) => {
-    if (confidence >= 0.9) return "text-emerald-400";
-    if (confidence >= 0.7) return "text-yellow-400";
-    return "text-orange-400";
-  };
-
   const getDataChangeIcon = (stats: ColumnComparisonStats | null) => {
     if (!stats) return null;
 
@@ -127,13 +121,11 @@ export function ColumnMappingsSection({
               <div className="flex-1">
                 <div className="flex items-center gap-2">
                   <span className="text-white font-medium">
-                    {cleanColumnName(mapping.export_column || "No mapping")}
+                    {cleanColumnName(
+                      mapping.export_column?.replace("(export)", "") ||
+                        "No mapping"
+                    )}
                   </span>
-                  {mapping.is_many_to_one && (
-                    <span className="px-2 py-1 text-xs bg-purple-500/20 text-purple-400 rounded-full">
-                      Many-to-One
-                    </span>
-                  )}
                 </div>
                 {mapping.additional_crm_columns &&
                   Array.isArray(mapping.additional_crm_columns) &&

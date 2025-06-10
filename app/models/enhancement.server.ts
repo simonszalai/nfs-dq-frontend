@@ -14,7 +14,7 @@ export type EnhancementReportWithRelations = EnrichmentReport & {
 export async function getEnhancementReportByToken(
   token: string
 ): Promise<EnhancementReportWithRelations | null> {
-  return prisma.enrichmentReport.findUnique({
+  const report = await prisma.enrichmentReport.findUnique({
     where: { token },
     include: {
       column_mappings: {
@@ -25,4 +25,28 @@ export async function getEnhancementReportByToken(
       },
     },
   });
+
+  if (!report) {
+    return null;
+  }
+
+  // Filter out duplicate export_column values, keeping only the first occurrence
+  const seenExportColumns = new Set<string>();
+  const uniqueColumnMappings = report.column_mappings.filter((mapping) => {
+    if (!mapping.export_column) {
+      return false; // Exclude mappings with null export_column
+    }
+
+    if (seenExportColumns.has(mapping.export_column)) {
+      return false; // Skip duplicate export_column
+    }
+
+    seenExportColumns.add(mapping.export_column);
+    return true;
+  });
+
+  return {
+    ...report,
+    column_mappings: uniqueColumnMappings,
+  };
 }
