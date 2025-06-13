@@ -5,15 +5,15 @@ import type {
 } from "@prisma/client";
 import { prisma } from "./db.server";
 
-export type EnhancementReportWithRelations = EnrichmentReport & {
+export type EnrichmentReportWithRelations = EnrichmentReport & {
   column_mappings: (ColumnMapping & {
     comparison_stats: ColumnComparisonStats | null;
   })[];
 };
 
-export async function getEnhancementReportByToken(
+export async function getEnrichmentReportByToken(
   token: string
-): Promise<EnhancementReportWithRelations | null> {
+): Promise<EnrichmentReportWithRelations | null> {
   const report = await prisma.enrichmentReport.findUnique({
     where: { token },
     include: {

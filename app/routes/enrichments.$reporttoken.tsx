@@ -1,8 +1,8 @@
-import { ColumnMappingsSection } from "../components/enhancement/ColumnMappingsSection";
-import { DataComparisonStats } from "../components/enhancement/DataComparisonStats";
-import { EnhancementHeader } from "../components/enhancement/EnhancementHeader";
-import { getEnhancementReportByToken } from "../models/enhancement.server";
-import type { Route } from "./+types/enhancements.$reporttoken";
+import { ColumnMappingsSection } from "../components/enrichment/ColumnMappingsSection";
+import { DataComparisonStats } from "../components/enrichment/DataComparisonStats";
+import { EnrichmentHeader } from "../components/enrichment/EnrichmentHeader";
+import { getEnrichmentReportByToken } from "../models/enrichment";
+import type { Route } from "./+types/enrichments.$reporttoken";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { reporttoken } = params;
@@ -11,15 +11,15 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response("Report token is required", { status: 400 });
   }
 
-  const enhancementReport = await getEnhancementReportByToken(reporttoken);
+  const enrichmentReport = await getEnrichmentReportByToken(reporttoken);
 
-  if (!enhancementReport) {
-    throw new Response("Enhancement report not found", { status: 404 });
+  if (!enrichmentReport) {
+    throw new Response("Enrichment report not found", { status: 404 });
   }
 
   // Calculate key metrics
   const dataImprovementRate =
-    (enhancementReport.column_mappings.reduce((sum: number, mapping) => {
+    (enrichmentReport.column_mappings.reduce((sum: number, mapping) => {
       if (mapping.comparison_stats) {
         const total =
           mapping.comparison_stats.discarded_invalid_data +
@@ -33,51 +33,51 @@ export async function loader({ params }: Route.LoaderArgs) {
       }
       return sum;
     }, 0) /
-      enhancementReport.column_mappings.length) *
+      enrichmentReport.column_mappings.length) *
     100;
 
   // Calculate aggregated data points stats
-  const totalDataPointsAdded = enhancementReport.column_mappings.reduce(
+  const totalDataPointsAdded = enrichmentReport.column_mappings.reduce(
     (sum: number, mapping) =>
       sum + (mapping.comparison_stats?.added_new_data || 0),
     0
   );
 
-  const totalDataPointsDeleted = enhancementReport.column_mappings.reduce(
+  const totalDataPointsDiscarded = enrichmentReport.column_mappings.reduce(
     (sum: number, mapping) =>
       sum + (mapping.comparison_stats?.discarded_invalid_data || 0),
     0
   );
 
-  const totalDataPointsEnhanced = enhancementReport.column_mappings.reduce(
+  const totalDataPointsEnriched = enrichmentReport.column_mappings.reduce(
     (sum: number, mapping) => sum + (mapping.comparison_stats?.fixed_data || 0),
     0
   );
 
-  const enhancementCoverage =
-    (enhancementReport.records_modified_count / enhancementReport.total_rows) *
+  const enrichmentCoverage =
+    (enrichmentReport.records_modified_count / enrichmentReport.total_rows) *
     100;
 
   return {
-    enhancementReport,
+    enrichmentReport,
     dataImprovementRate,
     totalDataPointsAdded,
-    totalDataPointsDeleted,
-    totalDataPointsEnhanced,
-    enhancementCoverage,
+    totalDataPointsDiscarded,
+    totalDataPointsEnriched,
+    enrichmentCoverage,
   };
 }
 
-export default function EnhancementReportPage({
+export default function EnrichmentReportPage({
   loaderData,
 }: Route.ComponentProps) {
   const {
-    enhancementReport,
+    enrichmentReport,
     dataImprovementRate,
     totalDataPointsAdded,
-    totalDataPointsDeleted,
-    totalDataPointsEnhanced,
-    enhancementCoverage,
+    totalDataPointsDiscarded,
+    totalDataPointsEnriched,
+    enrichmentCoverage,
   } = loaderData;
 
   return (
@@ -93,28 +93,29 @@ export default function EnhancementReportPage({
         {/* Main content */}
         <div className="relative z-10">
           <div className="container mx-auto px-6 py-8 max-w-7xl">
-            <EnhancementHeader
-              createdAt={enhancementReport.created_at}
-              totalRows={enhancementReport.total_rows}
+            <EnrichmentHeader
+              createdAt={enrichmentReport.created_at}
+              totalRows={enrichmentReport.total_rows}
+              title={enrichmentReport.filename}
               dataImprovementRate={dataImprovementRate}
               totalDataPointsAdded={totalDataPointsAdded}
-              totalDataPointsDeleted={totalDataPointsDeleted}
-              totalDataPointsEnhanced={totalDataPointsEnhanced}
-              enhancementCoverage={enhancementCoverage}
-              recordsModified={enhancementReport.records_modified_count}
+              totalDataPointsDiscarded={totalDataPointsDiscarded}
+              totalDataPointsEnriched={totalDataPointsEnriched}
+              enrichmentCoverage={enrichmentCoverage}
+              recordsModified={enrichmentReport.records_modified_count}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               <div className="lg:col-span-2">
                 <ColumnMappingsSection
-                  columnMappings={enhancementReport.column_mappings}
-                  totalRows={enhancementReport.total_rows}
+                  columnMappings={enrichmentReport.column_mappings}
+                  totalRows={enrichmentReport.total_rows}
                 />
               </div>
               <div className="lg:col-span-1">
                 <DataComparisonStats
-                  columnMappings={enhancementReport.column_mappings}
-                  totalRows={enhancementReport.total_rows}
+                  columnMappings={enrichmentReport.column_mappings}
+                  totalRows={enrichmentReport.total_rows}
                 />
               </div>
             </div>

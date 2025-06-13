@@ -50,135 +50,22 @@ export function DataComparisonStats({
 
   return (
     <div className="space-y-6">
-      {/* Data Changes Summary */}
-      <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-          <svg
-            className="h-6 w-6 text-cyan-400"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-            />
-          </svg>
-          Data Changes Summary
-        </h2>
-
-        <div className="space-y-4">
-          {/* Change Type Breakdown */}
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-emerald-400 rounded-full"></div>
-                <span className="text-sm text-gray-300">New Data Added</span>
-              </div>
-              <span className="text-emerald-400 font-semibold">
-                {totals.added.toLocaleString()}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                <span className="text-sm text-gray-300">Data Fixed</span>
-              </div>
-              <span className="text-blue-400 font-semibold">
-                {totals.fixed.toLocaleString()}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
-                <span className="text-sm text-gray-300">
-                  Invalid Data Removed
-                </span>
-              </div>
-              <span className="text-orange-400 font-semibold">
-                {totals.discarded.toLocaleString()}
-              </span>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
-                <span className="text-sm text-gray-300">Unchanged</span>
-              </div>
-              <span className="text-gray-400 font-semibold">
-                {totals.good.toLocaleString()}
-              </span>
-            </div>
-          </div>
-
-          {/* Visual Distribution Bar */}
-          {totalChanges > 0 && (
-            <div className="mt-4">
-              <div className="h-8 flex overflow-hidden rounded-lg">
-                {totals.added > 0 && (
-                  <div
-                    className="bg-emerald-400 flex items-center justify-center text-xs font-medium text-white"
-                    style={{ width: `${(totals.added / totalChanges) * 100}%` }}
-                    title={`${((totals.added / totalChanges) * 100).toFixed(
-                      1
-                    )}%`}
-                  />
-                )}
-                {totals.fixed > 0 && (
-                  <div
-                    className="bg-blue-400 flex items-center justify-center text-xs font-medium text-white"
-                    style={{ width: `${(totals.fixed / totalChanges) * 100}%` }}
-                    title={`${((totals.fixed / totalChanges) * 100).toFixed(
-                      1
-                    )}%`}
-                  />
-                )}
-                {totals.discarded > 0 && (
-                  <div
-                    className="bg-orange-400 flex items-center justify-center text-xs font-medium text-white"
-                    style={{
-                      width: `${(totals.discarded / totalChanges) * 100}%`,
-                    }}
-                    title={`${((totals.discarded / totalChanges) * 100).toFixed(
-                      1
-                    )}%`}
-                  />
-                )}
-                {totals.good > 0 && (
-                  <div
-                    className="bg-gray-400 flex items-center justify-center text-xs font-medium text-white"
-                    style={{ width: `${(totals.good / totalChanges) * 100}%` }}
-                    title={`${((totals.good / totalChanges) * 100).toFixed(
-                      1
-                    )}%`}
-                  />
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-
       {/* Overall Accuracy Improvement */}
       <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-lg p-6">
         <h3 className="text-lg font-semibold text-white mb-4">
-          Average Data Accuracy
+          Average Data Completeness
         </h3>
 
         <div className="space-y-3">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-400">Before Enhancement</span>
+            <span className="text-sm text-gray-400">Before Enrichment</span>
             <span className="text-xl font-bold text-gray-300">
               {avgAccuracyBefore.toFixed(1)}%
             </span>
           </div>
 
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-400">After Enhancement</span>
+            <span className="text-sm text-gray-400">After Enrichment</span>
             <span className="text-xl font-bold text-emerald-400">
               {avgAccuracyAfter.toFixed(1)}%
             </span>
@@ -202,7 +89,15 @@ export function DataComparisonStats({
                   />
                 </svg>
                 <span className="text-xl font-bold text-emerald-400">
-                  +{(avgAccuracyAfter - avgAccuracyBefore).toFixed(1)}%
+                  +
+                  {avgAccuracyBefore > 0
+                    ? (
+                        ((avgAccuracyAfter - avgAccuracyBefore) /
+                          avgAccuracyBefore) *
+                        100
+                      ).toFixed(1)
+                    : "∞"}
+                  %
                 </span>
               </div>
             </div>

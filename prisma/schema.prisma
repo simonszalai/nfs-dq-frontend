@@ -89,6 +89,7 @@ model ColumnComparisonStats {
   added_new_data            Int           @default(0)
   fixed_data                Int           @default(0)
   good_data                 Int           @default(0)
+  not_found                 Int           @default(0)
   correct_values_before     Int           @default(0)
   correct_values_after      Int           @default(0)
   correct_percentage_before Float         @default(0.0)

@@ -11,7 +11,7 @@ export function ColumnMappingsSection({
   columnMappings,
   totalRows,
 }: ColumnMappingsSectionProps) {
-  // Only show mappings that have comparison stats (actual enhancement)
+  // Only show mappings that have comparison stats (actual enrichments)
   const enhancedMappings = columnMappings.filter(
     (mapping) => mapping.comparison_stats
   );
@@ -74,7 +74,9 @@ export function ColumnMappingsSection({
   };
 
   const cleanColumnName = (columnName: string) => {
-    return columnName.replace(/^export\./, "");
+    const cleaned = columnName.replace(/^export\./, "");
+    // Capitalize the first letter of each word
+    return cleaned.replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
   return (
@@ -107,7 +109,7 @@ export function ColumnMappingsSection({
             d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
           />
         </svg>
-        Enhancement Breakdown
+        Enrichment Breakdown
       </h2>
 
       <div className="space-y-4">
@@ -127,14 +129,6 @@ export function ColumnMappingsSection({
                     )}
                   </span>
                 </div>
-                {mapping.additional_crm_columns &&
-                  Array.isArray(mapping.additional_crm_columns) &&
-                  mapping.additional_crm_columns.length > 0 && (
-                    <div className="mt-1 text-sm text-gray-400">
-                      Also includes:{" "}
-                      {(mapping.additional_crm_columns as string[]).join(", ")}
-                    </div>
-                  )}
               </div>
               <div className="flex items-center gap-3">
                 {getDataChangeIcon(mapping.comparison_stats)}
@@ -142,13 +136,20 @@ export function ColumnMappingsSection({
                   <div className="text-right">
                     <div className="text-lg font-bold text-emerald-400">
                       +
-                      {(
-                        mapping.comparison_stats.correct_percentage_after -
-                        mapping.comparison_stats.correct_percentage_before
-                      ).toFixed(1)}
+                      {mapping.comparison_stats.correct_percentage_before > 0
+                        ? (
+                            ((mapping.comparison_stats
+                              .correct_percentage_after -
+                              mapping.comparison_stats
+                                .correct_percentage_before) /
+                              mapping.comparison_stats
+                                .correct_percentage_before) *
+                            100
+                          ).toFixed(1)
+                        : "∞"}
                       %
                     </div>
-                    <div className="text-xs text-gray-400">accuracy</div>
+                    <div className="text-xs text-gray-400">completeness</div>
                   </div>
                 )}
               </div>
@@ -156,30 +157,36 @@ export function ColumnMappingsSection({
 
             {/* Comparison Stats */}
             {mapping.comparison_stats && (
-              <div className="grid grid-cols-4 gap-3 text-sm">
-                <div className="bg-gray-900/50 rounded p-2">
+              <div className="grid grid-cols-5 gap-1 text-sm">
+                <div className="bg-gray-900/50 rounded px-2 py-1 min-w-0">
                   <div className="text-emerald-400 font-semibold">
                     {mapping.comparison_stats.added_new_data}
                   </div>
                   <div className="text-xs text-gray-400">Added</div>
                 </div>
-                <div className="bg-gray-900/50 rounded p-2">
+                <div className="bg-gray-900/50 rounded px-2 py-1 min-w-0">
                   <div className="text-blue-400 font-semibold">
                     {mapping.comparison_stats.fixed_data}
                   </div>
                   <div className="text-xs text-gray-400">Fixed</div>
                 </div>
-                <div className="bg-gray-900/50 rounded p-2">
+                <div className="bg-gray-900/50 rounded px-2 py-1 min-w-0">
+                  <div className="text-gray-400 font-semibold">
+                    {mapping.comparison_stats.good_data}
+                  </div>
+                  <div className="text-xs text-gray-400">Unchanged</div>
+                </div>
+                <div className="bg-gray-900/50 rounded px-2 py-1 min-w-0">
                   <div className="text-orange-400 font-semibold">
                     {mapping.comparison_stats.discarded_invalid_data}
                   </div>
                   <div className="text-xs text-gray-400">Discarded</div>
                 </div>
-                <div className="bg-gray-900/50 rounded p-2">
-                  <div className="text-gray-400 font-semibold">
-                    {mapping.comparison_stats.good_data}
+                <div className="bg-gray-900/50 rounded px-2 py-1 min-w-0">
+                  <div className="text-red-400 font-semibold">
+                    {mapping.comparison_stats.not_found}
                   </div>
-                  <div className="text-xs text-gray-400">Unchanged</div>
+                  <div className="text-xs text-gray-400">Not found</div>
                 </div>
               </div>
             )}
@@ -188,7 +195,7 @@ export function ColumnMappingsSection({
             {mapping.comparison_stats && (
               <div className="mt-3">
                 <div className="flex justify-between text-xs text-gray-400 mb-1">
-                  <span>Data Accuracy</span>
+                  <span>Data Completeness</span>
                   <span>
                     {mapping.comparison_stats.correct_percentage_before.toFixed(
                       1

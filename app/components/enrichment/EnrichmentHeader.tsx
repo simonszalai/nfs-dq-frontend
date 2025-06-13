@@ -1,24 +1,26 @@
-interface EnhancementHeaderProps {
+interface EnrichmentHeaderProps {
   createdAt: Date;
   totalRows: number;
+  title: string;
   dataImprovementRate: number;
   totalDataPointsAdded: number;
-  totalDataPointsDeleted: number;
-  totalDataPointsEnhanced: number;
-  enhancementCoverage: number;
+  totalDataPointsDiscarded: number;
+  totalDataPointsEnriched: number;
+  enrichmentCoverage: number;
   recordsModified: number;
 }
 
-export function EnhancementHeader({
+export function EnrichmentHeader({
   createdAt,
   totalRows,
+  title,
   dataImprovementRate,
   totalDataPointsAdded,
-  totalDataPointsDeleted,
-  totalDataPointsEnhanced,
-  enhancementCoverage,
+  totalDataPointsDiscarded,
+  totalDataPointsEnriched,
+  enrichmentCoverage,
   recordsModified,
-}: EnhancementHeaderProps) {
+}: EnrichmentHeaderProps) {
   return (
     <div className="mb-8">
       <div className="bg-gray-800/50 backdrop-blur-xl rounded-2xl p-8 border border-gray-700/50 shadow-2xl">
@@ -38,7 +40,7 @@ export function EnhancementHeader({
                   d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                 />
               </svg>
-              Data Enhancement Report
+              {title}
             </h1>
             <div className="flex items-center gap-2 text-gray-400">
               <svg
@@ -61,10 +63,10 @@ export function EnhancementHeader({
           </div>
           <div className="text-right">
             <div className="text-5xl font-bold text-emerald-400">
-              {enhancementCoverage.toFixed(1)}%
+              {enrichmentCoverage.toFixed(1)}%
             </div>
             <div className="text-sm text-gray-400 mt-1">
-              Enhancement Coverage
+              of records enriched
             </div>
           </div>
         </div>
@@ -90,7 +92,7 @@ export function EnhancementHeader({
                   {recordsModified.toLocaleString()} of{" "}
                   {totalRows.toLocaleString()}
                 </div>
-                <div className="text-xs text-gray-400">Records Enhanced</div>
+                <div className="text-xs text-gray-400">Records Enriched</div>
               </div>
             </div>
           </div>
@@ -136,10 +138,10 @@ export function EnhancementHeader({
               </svg>
               <div className="text-right">
                 <div className="text-2xl font-bold text-white">
-                  {totalDataPointsDeleted.toLocaleString()}
+                  {totalDataPointsDiscarded.toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-400">
-                  Invalid Data Points Deleted
+                  Invalid Data Points Discarded
                 </div>
               </div>
             </div>
@@ -162,10 +164,10 @@ export function EnhancementHeader({
               </svg>
               <div className="text-right">
                 <div className="text-2xl font-bold text-white">
-                  {totalDataPointsEnhanced.toLocaleString()}
+                  {totalDataPointsEnriched.toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-400">
-                  Data Points Enhanced
+                  Data Points Enriched
                 </div>
               </div>
             </div>
